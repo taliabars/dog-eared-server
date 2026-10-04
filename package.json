@@ -1,0 +1,24 @@
+{
+  "name": "dog-eared-server",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/taliabars/dog-eared-server.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/taliabars/dog-eared-server/issues"
+  },
+  "homepage": "https://github.com/taliabars/dog-eared-server#readme",
+  "dependencies": {
+    "express": "^5.2.1"
+  }
+}

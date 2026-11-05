@@ -1,0 +1,72 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dog-Eared | Book API</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+    <header>
+        <h1>DOG-EARED</h1>
+        <p>Book Recommendation API</p>
+    </header>
+
+    <main>
+        <section class="intro">
+            <h2>Welcome to the Dog-Eared API</h2>
+
+            <p>
+                This API provides book recommendations for the
+                Dog-Eared website. Explore the available endpoints
+                below to view book information.
+            </p>
+        </section>
+
+        <section class="api-section">
+            <h2>Available API Requests</h2>
+
+            <div class="api-grid">
+                <div class="api-card">
+                    <h3>All Books</h3>
+
+                    <p>
+                        View the complete collection of 12 book
+                        recommendations, including titles, authors,
+                        genres, ratings, and more.
+                    </p>
+
+                    <p class="endpoint">GET /api/books</p>
+
+                    <a href="/api/books" class="button">
+                        View All Books →
+                    </a>
+                </div>
+
+                <div class="api-card">
+                    <h3>Book Details</h3>
+
+                    <p>
+                        View information about an individual book
+                        using its unique ID.
+                    </p>
+
+                    <p class="endpoint">GET /api/books/:id</p>
+
+                    <a href="/api/books/1" class="button">
+                        View Example Book →
+                    </a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <h2>DOG-EARED</h2>
+        <p>Find your next favorite read.</p>
+        <p>&copy; 2026 Dog-Eared</p>
+    </footer>
+</body>
+</html>

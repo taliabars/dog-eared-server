@@ -1,6 +1,7 @@
 
 const express = require("express");
 const cors = require("cors");
+const Joi = require("joi");
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -120,12 +121,22 @@ const books = [
     }
 ];
 
-// Get all books
+// Joi validation schema for new books
+const bookSchema = Joi.object({
+    title: Joi.string().trim().min(2).max(150).required(),
+    author: Joi.string().trim().min(2).max(100).required(),
+    genre: Joi.string().trim().min(2).max(50).required(),
+    rating: Joi.number().integer().min(1).max(5).required(),
+    pages: Joi.number().integer().min(1).max(5000).required(),
+    img_name: Joi.string().trim().allow("").default("")
+});
+
+// GET all books
 app.get("/api/books", (req, res) => {
     res.json(books);
 });
 
-// Get one book by ID
+// GET a single book by ID
 app.get("/api/books/:id", (req, res) => {
     const book = books.find(
         (item) => item._id === Number(req.params.id)
@@ -138,6 +149,33 @@ app.get("/api/books/:id", (req, res) => {
     }
 
     res.json(book);
+});
+
+// POST a new book
+app.post("/api/books", (req, res) => {
+    const { error, value } = bookSchema.validate(req.body, {
+        abortEarly: false
+    });
+
+    if (error) {
+        return res.status(400).json({
+            success: false,
+            errors: error.details.map((detail) => detail.message)
+        });
+    }
+
+    const newBook = {
+        _id: Math.max(0, ...books.map((book) => book._id)) + 1,
+        ...value
+    };
+
+    books.push(newBook);
+
+    res.status(201).json({
+        success: true,
+        message: "Book added successfully!",
+        book: newBook
+    });
 });
 
 // Start the server

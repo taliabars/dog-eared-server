@@ -121,7 +121,7 @@ const books = [
     }
 ];
 
-// Joi validation schema for new books
+// Joi validation for adding and editing books
 const bookSchema = Joi.object({
     title: Joi.string().trim().min(2).max(150).required(),
     author: Joi.string().trim().min(2).max(100).required(),
@@ -136,7 +136,7 @@ app.get("/api/books", (req, res) => {
     res.json(books);
 });
 
-// GET a single book by ID
+// GET one book by ID
 app.get("/api/books/:id", (req, res) => {
     const book = books.find(
         (item) => item._id === Number(req.params.id)
@@ -175,6 +175,70 @@ app.post("/api/books", (req, res) => {
         success: true,
         message: "Book added successfully!",
         book: newBook
+    });
+});
+
+// PUT - Edit an existing book
+app.put("/api/books/:id", (req, res) => {
+    const id = Number(req.params.id);
+
+    const bookIndex = books.findIndex(
+        (book) => book._id === id
+    );
+
+    if (bookIndex === -1) {
+        return res.status(404).json({
+            success: false,
+            message: "Book not found"
+        });
+    }
+
+    const { error, value } = bookSchema.validate(req.body, {
+        abortEarly: false
+    });
+
+    if (error) {
+        return res.status(400).json({
+            success: false,
+            errors: error.details.map((detail) => detail.message)
+        });
+    }
+
+    const updatedBook = {
+        _id: id,
+        ...value
+    };
+
+    books[bookIndex] = updatedBook;
+
+    res.status(200).json({
+        success: true,
+        message: "Book updated successfully!",
+        book: updatedBook
+    });
+});
+
+// DELETE - Remove an existing book
+app.delete("/api/books/:id", (req, res) => {
+    const id = Number(req.params.id);
+
+    const bookIndex = books.findIndex(
+        (book) => book._id === id
+    );
+
+    if (bookIndex === -1) {
+        return res.status(404).json({
+            success: false,
+            message: "Book not found"
+        });
+    }
+
+    const deletedBook = books.splice(bookIndex, 1)[0];
+
+    res.status(200).json({
+        success: true,
+        message: "Book deleted successfully!",
+        book: deletedBook
     });
 });
 
